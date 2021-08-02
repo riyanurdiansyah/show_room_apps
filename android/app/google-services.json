@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "894842550447",
+    "project_id": "show-room-dadf7",
+    "storage_bucket": "show-room-dadf7.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:894842550447:android:af0842ec9ae207b05bfc5a",
+        "android_client_info": {
+          "package_name": "com.rsyahproject.show_room_apps"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "894842550447-4d21jm86n4g5t4hkesufoi68eq4aijtp.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCXm3UMOMO6AVPh0-sHwW4ymw4mKVJKiqw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "894842550447-4d21jm86n4g5t4hkesufoi68eq4aijtp.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
