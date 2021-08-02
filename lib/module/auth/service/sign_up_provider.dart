@@ -1,10 +1,15 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-class SignInProvider extends ChangeNotifier {
+class SignUpProvider extends ChangeNotifier {
+  final key = GlobalKey<FormState>();
+
   //initialize controller
   final usernameController = TextEditingController();
+  final emailController = TextEditingController();
   final passwordController = TextEditingController();
+  final namaController = TextEditingController();
+  final hpController = TextEditingController();
+  final addressController = TextEditingController();
 
   //set visible password
   bool _isObscure = true;
