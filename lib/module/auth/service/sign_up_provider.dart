@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 class SignUpProvider extends ChangeNotifier {
+  final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
   final formKey = GlobalKey<FormState>();
 
   //initialize controller
@@ -11,6 +12,8 @@ class SignUpProvider extends ChangeNotifier {
   final namaController = TextEditingController();
   final hpController = TextEditingController();
   final addressController = TextEditingController();
+
+  bool isLoading = false;
 
   //set visible password
   bool _isObscure = true;

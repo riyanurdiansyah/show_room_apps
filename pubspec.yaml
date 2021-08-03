@@ -30,7 +30,7 @@ dependencies:
   cupertino_icons: ^1.0.2
   path_provider: ^2.0.2
   provider: ^4.3.2+2
-  dio: ^3.0.9
+  dio: ^4.0.0
   flutter_screen_scaler: ^2.0.0
   flutter_svg: ^0.19.3
   another_flushbar: ^1.10.17
@@ -38,8 +38,10 @@ dependencies:
   fluttertoast: ^8.0.7
   firebase_core: ^1.4.0
   cloud_firestore: ^2.4.0
-  intl: ^0.16.1
-  google_fonts: ^1.1.2
+  intl: ^0.17.0
+  google_fonts: ^2.1.0
+  firebase_auth: ^1.4.0
+  crypt: ^4.0.1
 
 dev_dependencies:
   flutter_test:

@@ -1,9 +1,14 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:crypt/crypt.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
+import 'package:show_room_apps/module/auth/service/auth_service.dart';
 import 'package:show_room_apps/module/auth/service/sign_up_provider.dart';
 import 'package:show_room_apps/module/auth/view/sign_in_screen.dart';
+import 'package:show_room_apps/utils/custome_alert_dialog.dart';
 import 'package:show_room_apps/utils/standartext.dart';
 
 class SignUpScreen extends StatefulWidget {
@@ -80,12 +85,12 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                     textInputAction: TextInputAction.next,
                                     style: GoogleFonts.ubuntu(
                                         fontSize: size.width * 0.04),
-                                    controller: _provider.usernameController,
+                                    controller: _provider.emailController,
                                     cursorColor: Colors.blue,
                                     decoration: InputDecoration(
                                       fillColor: Colors.brown,
                                       border: InputBorder.none,
-                                      hintText: "Username",
+                                      hintText: "Email address",
                                       hintStyle: GoogleFonts.ubuntu(
                                         fontSize: size.width * 0.04,
                                       ),
@@ -197,7 +202,77 @@ class _SignUpScreenState extends State<SignUpScreen> {
                             width: size.width * 0.6,
                             height: size.height * 0.06,
                             child: ElevatedButton(
-                              onPressed: () {},
+                              onPressed: () async {
+                                // const specialchar = r'^(?=.*?[#?!@$%^&*-])';
+                                // const lowercase = r'^(?=.*[a-z])';
+                                // const uppercase = r'^(?=.*[A-Z])';
+                                // const number = r'^(?=.*[0-9])';
+                                // const pattern =
+                                //     r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$';
+                                // final regEmail = RegExp(pattern);
+                                // if (_provider.emailController.text.isEmpty) {
+                                //   return CustomFlushbar.info(context,
+                                //       "Error..!!", "Email can't be empty");
+                                // } else if (!regEmail.hasMatch(
+                                //     _provider.emailController.text.trim())) {
+                                //   return CustomFlushbar.info(context,
+                                //       "Error..!!", "Email is not valid");
+                                // } else if (_provider
+                                //     .passwordController.text.isEmpty) {
+                                //   return CustomFlushbar.info(context,
+                                //       "Error..!!", "Password can't be empty");
+                                // } else if (_provider
+                                //         .passwordController.text.length <
+                                //     8) {
+                                //   return CustomFlushbar.info(context,
+                                //       "Error..!!", "Password is to sort");
+                                // } else if (!RegExp(number).hasMatch(
+                                //     _provider.passwordController.text.trim())) {
+                                //   return CustomFlushbar.info(
+                                //       context,
+                                //       "Error..!!",
+                                //       "Password must contains one number");
+                                // } else if (!RegExp(uppercase).hasMatch(
+                                //     _provider.passwordController.text.trim())) {
+                                //   return CustomFlushbar.info(
+                                //       context,
+                                //       "Error..!!",
+                                //       "Password must contains one uppercase characters");
+                                // } else if (!RegExp(lowercase).hasMatch(
+                                //     _provider.passwordController.text.trim())) {
+                                //   return CustomFlushbar.info(
+                                //       context,
+                                //       "Error..!!",
+                                //       "Password must contains one lowercase characters");
+                                // } else if (!RegExp(specialchar).hasMatch(
+                                //     _provider.passwordController.text.trim())) {
+                                //   return CustomFlushbar.info(
+                                //       context,
+                                //       "Error..!!",
+                                //       "Password must contains one special characters");
+                                // } else if (_provider.passwordController.text !=
+                                //     _provider.confirmPasswordController.text) {
+                                //   return CustomFlushbar.info(context,
+                                //       "Error..!!", "Password doesn't match");
+                                // } else {
+                                setState(() {
+                                  _provider.isLoading = true;
+                                });
+
+                                var listName =
+                                    _provider.emailController.text.split("@");
+                                String name = listName[0];
+                                String hashPassword = Crypt.sha256(
+                                        _provider.passwordController.text)
+                                    .toString();
+                                await AuthService.signUp(
+                                  name,
+                                  _provider.emailController.text,
+                                  _provider.passwordController.text,
+                                  hashPassword,
+                                );
+                                // }
+                              },
                               style: ElevatedButton.styleFrom(
                                 primary: Colors.black,
                                 elevation: 2,
@@ -207,10 +282,21 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                       bottomRight: Radius.circular(15)),
                                 ),
                               ),
-                              child: PosText.labelPutih(
-                                "LOGIN",
-                                size.width * 0.05,
-                              ),
+                              child: (_provider.isLoading == false)
+                                  ? PosText.labelPutih(
+                                      "REGIS",
+                                      size.width * 0.05,
+                                    )
+                                  : Container(
+                                      width: 15,
+                                      height: 15,
+                                      child: CircularProgressIndicator(
+                                        backgroundColor: Colors.grey,
+                                        valueColor:
+                                            AlwaysStoppedAnimation<Color>(
+                                                Colors.white),
+                                      ),
+                                    ),
                             ),
                           ),
                           SizedBox(

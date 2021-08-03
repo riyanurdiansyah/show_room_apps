@@ -60,10 +60,10 @@ class _SignInScreenState extends State<SignInScreen> {
                             size.width * 0.06,
                           ),
                           SizedBox(
-                            height: size.width * 0.2,
+                            height: size.width * 0.1,
                           ),
                           Container(
-                            height: size.height * 0.08,
+                            height: size.height * 0.1,
                             alignment: Alignment.center,
                             margin: EdgeInsets.only(
                               left: size.width * 0.04,
@@ -102,7 +102,7 @@ class _SignInScreenState extends State<SignInScreen> {
                             height: size.height * 0.02,
                           ),
                           Container(
-                            height: size.height * 0.08,
+                            height: size.height * 0.1,
                             alignment: Alignment.center,
                             margin: EdgeInsets.only(
                               left: size.width * 0.04,
@@ -185,7 +185,10 @@ class _SignInScreenState extends State<SignInScreen> {
                                       width: 15,
                                       height: 15,
                                       child: CircularProgressIndicator(
-                                        color: Colors.white,
+                                        backgroundColor: Colors.grey,
+                                        valueColor:
+                                            AlwaysStoppedAnimation<Color>(
+                                                Colors.white),
                                       ),
                                     ),
                             ),

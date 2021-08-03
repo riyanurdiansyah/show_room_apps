@@ -1,3 +1,4 @@
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:show_room_apps/module/auth/service/sign_up_provider.dart';
@@ -6,7 +7,9 @@ import 'package:show_room_apps/module/auth/view/sign_up_screen.dart';
 
 import 'module/auth/service/sign_in_provider.dart';
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
   runApp(MyApp());
 }
 
