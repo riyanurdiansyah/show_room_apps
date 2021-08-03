@@ -2,9 +2,13 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class SignInProvider extends ChangeNotifier {
+  final formKey = GlobalKey<FormState>();
   //initialize controller
   final usernameController = TextEditingController();
   final passwordController = TextEditingController();
+
+  //is loading
+  bool isLoading = false;
 
   //set visible password
   bool _isObscure = true;

@@ -1,7 +1,9 @@
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'package:show_room_apps/module/auth/service/sign_up_provider.dart';
+import 'package:show_room_apps/module/auth/view/sign_in_screen.dart';
 import 'package:show_room_apps/utils/standartext.dart';
 
 class SignUpScreen extends StatefulWidget {
@@ -27,45 +29,43 @@ class _SignUpScreenState extends State<SignUpScreen> {
                 Flexible(
                   flex: 1,
                   child: Container(
-                    margin: EdgeInsets.only(top: size.height * 0.05),
-                    child: ListTile(
-                      leading: IconButton(
-                        onPressed: () {},
-                        icon: Icon(
-                          Icons.arrow_back_sharp,
-                          size: 25,
-                          color: Colors.white,
-                        ),
-                      ),
-                      title: Padding(
-                        padding: EdgeInsets.only(left: size.width * 0.25),
-                        child: PosText.labelPutih(
-                          "SIGN UP",
-                          size.width * 0.04,
-                        ),
-                      ),
+                    margin: EdgeInsets.only(top: size.width * 0.25),
+                    child: FlutterLogo(
+                      size: 70,
                     ),
                   ),
                 ),
                 SizedBox(
-                  height: size.height * 0.04,
+                  height: size.height * 0.08,
                 ),
                 Flexible(
-                  flex: 6,
+                  flex: 4,
                   child: Container(
+                    width: double.infinity,
                     decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius:
-                            BorderRadius.only(topLeft: Radius.circular(60))),
+                      color: Colors.white,
+                      borderRadius: BorderRadius.only(
+                        topLeft: Radius.circular(60),
+                      ),
+                    ),
                     child: Form(
-                      key: _provider.key,
+                      key: _provider.formKey,
                       child: Column(
                         children: [
+                          SizedBox(
+                            height: size.width * 0.1,
+                          ),
+                          PosText.labelHitamBold(
+                            "SIGN UP",
+                            size.width * 0.06,
+                          ),
+                          SizedBox(
+                            height: size.width * 0.1,
+                          ),
                           Container(
                             height: size.height * 0.08,
                             alignment: Alignment.center,
                             margin: EdgeInsets.only(
-                              top: size.height * 0.05,
                               left: size.width * 0.04,
                               right: size.width * 0.04,
                             ),
@@ -113,15 +113,26 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                 child: Container(
                                   margin: EdgeInsets.only(left: 15),
                                   child: TextFormField(
+                                    obscureText: _provider.isObscure,
+                                    controller: _provider.passwordController,
+                                    cursorColor: Colors.blue,
                                     textInputAction: TextInputAction.next,
+                                    keyboardType: TextInputType.visiblePassword,
                                     style: GoogleFonts.ubuntu(
                                         fontSize: size.width * 0.04),
-                                    controller: _provider.emailController,
-                                    cursorColor: Colors.blue,
                                     decoration: InputDecoration(
+                                      suffixIcon: IconButton(
+                                        color: Colors.black45,
+                                        icon: Icon(_provider.obscureIcon),
+                                        onPressed: () {
+                                          setState(() {
+                                            _provider.fnIsObscure();
+                                          });
+                                        },
+                                      ),
                                       fillColor: Colors.brown,
                                       border: InputBorder.none,
-                                      hintText: "Email address",
+                                      hintText: "Password",
                                       hintStyle: GoogleFonts.ubuntu(
                                         fontSize: size.width * 0.04,
                                       ),
@@ -149,8 +160,9 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                 child: Container(
                                   margin: EdgeInsets.only(left: 15),
                                   child: TextFormField(
-                                    obscureText: _provider.isObscure,
-                                    controller: _provider.passwordController,
+                                    obscureText: _provider.isObscureConfirm,
+                                    controller:
+                                        _provider.confirmPasswordController,
                                     cursorColor: Colors.blue,
                                     textInputAction: TextInputAction.done,
                                     keyboardType: TextInputType.visiblePassword,
@@ -162,13 +174,13 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                         icon: Icon(_provider.obscureIcon),
                                         onPressed: () {
                                           setState(() {
-                                            _provider.fnIsObscure();
+                                            _provider.fnIsObscureConfirm();
                                           });
                                         },
                                       ),
                                       fillColor: Colors.brown,
                                       border: InputBorder.none,
-                                      hintText: "Password",
+                                      hintText: "Confirm Password",
                                       hintStyle: GoogleFonts.ubuntu(
                                         fontSize: size.width * 0.04,
                                       ),
@@ -178,11 +190,63 @@ class _SignUpScreenState extends State<SignUpScreen> {
                               ),
                             ),
                           ),
+                          SizedBox(
+                            height: size.height * 0.06,
+                          ),
+                          Container(
+                            width: size.width * 0.6,
+                            height: size.height * 0.06,
+                            child: ElevatedButton(
+                              onPressed: () {},
+                              style: ElevatedButton.styleFrom(
+                                primary: Colors.black,
+                                elevation: 2,
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.only(
+                                      topLeft: Radius.circular(15),
+                                      bottomRight: Radius.circular(15)),
+                                ),
+                              ),
+                              child: PosText.labelPutih(
+                                "LOGIN",
+                                size.width * 0.05,
+                              ),
+                            ),
+                          ),
+                          SizedBox(
+                            height: size.height * 0.1,
+                          ),
+                          Center(
+                            child: RichText(
+                              text: TextSpan(
+                                text: 'Already have an account?',
+                                style: GoogleFonts.ubuntu(
+                                  fontSize: size.width * 0.04,
+                                  color: Colors.black,
+                                ),
+                                children: <TextSpan>[
+                                  TextSpan(
+                                    text: ' Sign In',
+                                    style: GoogleFonts.ubuntu(
+                                      fontSize: size.width * 0.04,
+                                      color: Colors.blueAccent,
+                                      fontWeight: FontWeight.w600,
+                                    ),
+                                    recognizer: TapGestureRecognizer()
+                                      ..onTap = () {
+                                        Navigator.pushNamed(
+                                            context, SignInScreen.route);
+                                      },
+                                  )
+                                ],
+                              ),
+                            ),
+                          )
                         ],
                       ),
                     ),
                   ),
-                ),
+                )
               ],
             ),
           ),
