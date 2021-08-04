@@ -1,8 +1,7 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:crypt/crypt.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'package:show_room_apps/module/auth/service/auth_service.dart';
@@ -203,58 +202,6 @@ class _SignUpScreenState extends State<SignUpScreen> {
                             height: size.height * 0.06,
                             child: ElevatedButton(
                               onPressed: () async {
-                                // const specialchar = r'^(?=.*?[#?!@$%^&*-])';
-                                // const lowercase = r'^(?=.*[a-z])';
-                                // const uppercase = r'^(?=.*[A-Z])';
-                                // const number = r'^(?=.*[0-9])';
-                                // const pattern =
-                                //     r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$';
-                                // final regEmail = RegExp(pattern);
-                                // if (_provider.emailController.text.isEmpty) {
-                                //   return CustomFlushbar.info(context,
-                                //       "Error..!!", "Email can't be empty");
-                                // } else if (!regEmail.hasMatch(
-                                //     _provider.emailController.text.trim())) {
-                                //   return CustomFlushbar.info(context,
-                                //       "Error..!!", "Email is not valid");
-                                // } else if (_provider
-                                //     .passwordController.text.isEmpty) {
-                                //   return CustomFlushbar.info(context,
-                                //       "Error..!!", "Password can't be empty");
-                                // } else if (_provider
-                                //         .passwordController.text.length <
-                                //     8) {
-                                //   return CustomFlushbar.info(context,
-                                //       "Error..!!", "Password is to sort");
-                                // } else if (!RegExp(number).hasMatch(
-                                //     _provider.passwordController.text.trim())) {
-                                //   return CustomFlushbar.info(
-                                //       context,
-                                //       "Error..!!",
-                                //       "Password must contains one number");
-                                // } else if (!RegExp(uppercase).hasMatch(
-                                //     _provider.passwordController.text.trim())) {
-                                //   return CustomFlushbar.info(
-                                //       context,
-                                //       "Error..!!",
-                                //       "Password must contains one uppercase characters");
-                                // } else if (!RegExp(lowercase).hasMatch(
-                                //     _provider.passwordController.text.trim())) {
-                                //   return CustomFlushbar.info(
-                                //       context,
-                                //       "Error..!!",
-                                //       "Password must contains one lowercase characters");
-                                // } else if (!RegExp(specialchar).hasMatch(
-                                //     _provider.passwordController.text.trim())) {
-                                //   return CustomFlushbar.info(
-                                //       context,
-                                //       "Error..!!",
-                                //       "Password must contains one special characters");
-                                // } else if (_provider.passwordController.text !=
-                                //     _provider.confirmPasswordController.text) {
-                                //   return CustomFlushbar.info(context,
-                                //       "Error..!!", "Password doesn't match");
-                                // } else {
                                 setState(() {
                                   _provider.isLoading = true;
                                 });
@@ -270,8 +217,29 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                   _provider.emailController.text,
                                   _provider.passwordController.text,
                                   hashPassword,
-                                );
-                                // }
+                                ).then((value) {
+                                  if (value == "email-already-in-use") {
+                                    setState(() {
+                                      _provider.isLoading = false;
+                                    });
+                                    CustomFlushbar.info(context, "Oopss..!",
+                                        "Email is already registered");
+                                  } else if (value == "weak-password") {
+                                    setState(() {
+                                      _provider.isLoading = false;
+                                    });
+                                    CustomFlushbar.info(context, "Oopss..!",
+                                        "Password is weak");
+                                  } else {
+                                    setState(() {
+                                      _provider.isLoading = false;
+                                    });
+                                    Navigator.pushNamed(
+                                        context, SignInScreen.route);
+                                    Fluttertoast.showToast(
+                                        msg: "Register is successfull");
+                                  }
+                                });
                               },
                               style: ElevatedButton.styleFrom(
                                 primary: Colors.black,

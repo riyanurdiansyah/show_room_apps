@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 class SignInProvider extends ChangeNotifier {
   final formKey = GlobalKey<FormState>();
   //initialize controller
-  final usernameController = TextEditingController();
+  final emailController = TextEditingController();
   final passwordController = TextEditingController();
 
   //is loading

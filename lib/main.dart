@@ -4,6 +4,8 @@ import 'package:provider/provider.dart';
 import 'package:show_room_apps/module/auth/service/sign_up_provider.dart';
 import 'package:show_room_apps/module/auth/view/sign_in_screen.dart';
 import 'package:show_room_apps/module/auth/view/sign_up_screen.dart';
+import 'package:show_room_apps/module/dashboard/service/dashboard_provider.dart';
+import 'package:show_room_apps/module/dashboard/view/dashboard_screen.dart';
 
 import 'module/auth/service/sign_in_provider.dart';
 
@@ -35,6 +37,12 @@ class _MyAppState extends State<MyApp> {
         SignUpScreen.route: (context) => ChangeNotifierProvider<SignUpProvider>(
               create: (context) => SignUpProvider(),
               child: SignUpScreen(),
+            ),
+        // note: dashboard screen
+        DashboardScreen.route: (context) =>
+            ChangeNotifierProvider<DashboardProvider>(
+              create: (context) => DashboardProvider(),
+              child: DashboardScreen(),
             ),
       },
     );

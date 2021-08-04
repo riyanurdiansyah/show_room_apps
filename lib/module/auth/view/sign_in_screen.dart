@@ -2,8 +2,11 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
+import 'package:show_room_apps/module/auth/service/auth_service.dart';
 import 'package:show_room_apps/module/auth/service/sign_in_provider.dart';
 import 'package:show_room_apps/module/auth/view/sign_up_screen.dart';
+import 'package:show_room_apps/module/dashboard/view/dashboard_screen.dart';
+import 'package:show_room_apps/utils/custome_alert_dialog.dart';
 import 'package:show_room_apps/utils/standartext.dart';
 
 class SignInScreen extends StatefulWidget {
@@ -83,7 +86,7 @@ class _SignInScreenState extends State<SignInScreen> {
                                     textInputAction: TextInputAction.next,
                                     style: GoogleFonts.ubuntu(
                                         fontSize: size.width * 0.04),
-                                    controller: _provider.usernameController,
+                                    controller: _provider.emailController,
                                     cursorColor: Colors.blue,
                                     decoration: InputDecoration(
                                       fillColor: Colors.brown,
@@ -155,17 +158,36 @@ class _SignInScreenState extends State<SignInScreen> {
                             width: size.width * 0.6,
                             height: size.height * 0.06,
                             child: ElevatedButton(
-                              onPressed: () {
-                                setState(
-                                  () {
-                                    _provider.isLoading = true;
-                                    Future.delayed(Duration(seconds: 5), () {
-                                      setState(() {
-                                        _provider.isLoading = false;
-                                      });
+                              onPressed: () async {
+                                setState(() {
+                                  _provider.isLoading = true;
+                                });
+                                await AuthService.signIn(
+                                        _provider.emailController.text,
+                                        _provider.passwordController.text)
+                                    .then((value) {
+                                  if (value == "wrong-password") {
+                                    setState(() {
+                                      _provider.isLoading = false;
                                     });
-                                  },
-                                );
+                                    CustomFlushbar.info(
+                                        context, "Oopss..!", "Wrong password!");
+                                  } else if (value == "invalid-email") {
+                                    setState(() {
+                                      _provider.isLoading = false;
+                                    });
+                                    CustomFlushbar.info(context, "Oopss..!",
+                                        "Email is invalid");
+                                  } else {
+                                    setState(() {
+                                      _provider.isLoading = false;
+                                    });
+                                    Navigator.pushNamedAndRemoveUntil(
+                                        context,
+                                        DashboardScreen.route,
+                                        (route) => false);
+                                  }
+                                });
                               },
                               style: ElevatedButton.styleFrom(
                                 primary: Colors.black,
