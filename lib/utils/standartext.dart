@@ -45,4 +45,19 @@ class PosText {
       ),
     );
   }
+
+  static Text labelAbu(
+    String title,
+    double fontSize,
+  ) {
+    return Text(
+      title,
+      style: GoogleFonts.ubuntu(
+        fontSize: fontSize,
+        color: Colors.grey,
+        fontStyle: FontStyle.normal,
+        fontWeight: FontWeight.bold,
+      ),
+    );
+  }
 }

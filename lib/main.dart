@@ -6,6 +6,8 @@ import 'package:show_room_apps/module/auth/view/sign_in_screen.dart';
 import 'package:show_room_apps/module/auth/view/sign_up_screen.dart';
 import 'package:show_room_apps/module/dashboard/service/dashboard_provider.dart';
 import 'package:show_room_apps/module/dashboard/view/dashboard_screen.dart';
+import 'package:show_room_apps/module/splash/service/splash_provider.dart';
+import 'package:show_room_apps/module/splash/view/splash_screen.dart';
 
 import 'module/auth/service/sign_in_provider.dart';
 
@@ -26,8 +28,13 @@ class _MyAppState extends State<MyApp> {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: "Show Room Us",
-      initialRoute: SignInScreen.route,
+      initialRoute: SplashScreen.route,
       routes: {
+        // note: splash screen
+        SplashScreen.route: (context) => ChangeNotifierProvider<SplashProvider>(
+              create: (context) => SplashProvider(),
+              child: SplashScreen(),
+            ),
         // note: sign in screen
         SignInScreen.route: (context) => ChangeNotifierProvider<SignInProvider>(
               create: (context) => SignInProvider(),
